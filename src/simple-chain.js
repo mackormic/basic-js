@@ -10,12 +10,30 @@ const chainMaker = {
     return this.arr.length;
   },
   addLink(value) {
-    this.arr.push(value);
+    if (value === undefined) {
+      this.arr.push(" ");
+    } else if (value === null) {
+      this.arr.push("null");
+    } else if (typeof value === "function") {
+      this.arr.push("function () { }");
+    } else {
+      this.arr.push(value);
+    }
     return this;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError("Not implemented");
-    // remove line with error and write your code here
+  removeLink(position) {
+    if (
+      position != +position ||
+      Number.isInteger(position) === false ||
+      this.arr.length - 1 < position ||
+      position <= 0
+    ) {
+      this.arr = [];
+      throw new Error("You can't remove incorrect link!");
+    } else if (this.arr.length > 0) {
+      this.arr.splice(position - 1, 1);
+    }
+    return this;
   },
   reverseChain() {
     this.arr.reverse();
